@@ -7,6 +7,5 @@
     "timeout":300,
     "method":"aes-256-cfb",
     "fast_open": false,
-    "workers": 1,
-    "prefer_ipv6": false
+    "workers": 1
 }

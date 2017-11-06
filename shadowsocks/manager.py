@@ -44,7 +44,7 @@ class Manager(object):
         self._statistics = collections.defaultdict(int)
         self._control_client_addr = None
         try:
-            manager_address = config['manager_address']
+            manager_address = common.to_str(config['manager_address'])
             if ':' in manager_address:
                 addr = manager_address.rsplit(':', 1)
                 addr = addr[0], int(addr[1])
@@ -71,7 +71,6 @@ class Manager(object):
 
         port_password = config['port_password']
         del config['port_password']
-        config['crypto_path'] = config.get('crypto_path', dict())
         for port, password in port_password.items():
             a_config = config.copy()
             a_config['server_port'] = int(port)
@@ -87,9 +86,9 @@ class Manager(object):
             return
         logging.info("adding server at %s:%d" % (config['server'], port))
         t = tcprelay.TCPRelay(config, self._dns_resolver, False,
-                              self.stat_callback)
+                              stat_callback=self.stat_callback)
         u = udprelay.UDPRelay(config, self._dns_resolver, False,
-                              self.stat_callback)
+                              stat_callback=self.stat_callback)
         t.add_to_loop(self._loop)
         u.add_to_loop(self._loop)
         self._relays[port] = (t, u)
@@ -142,8 +141,6 @@ class Manager(object):
         command, config_json = parts
         try:
             config = shell.parse_json_in_str(config_json)
-            if 'method' in config:
-                config['method'] = common.to_str(config['method'])
             return command, config
         except Exception as e:
             logging.error(e)
@@ -171,25 +168,23 @@ class Manager(object):
                 send_data(r)
                 r.clear()
                 i = 0
-        if len(r) > 0:
+        if len(r) > 0 :
             send_data(r)
         self._statistics.clear()
 
     def _send_control_data(self, data):
-        if not self._control_client_addr:
-            return
-
-        try:
-            self._control_socket.sendto(data, self._control_client_addr)
-        except (socket.error, OSError, IOError) as e:
-            error_no = eventloop.errno_from_exception(e)
-            if error_no in (errno.EAGAIN, errno.EINPROGRESS,
-                            errno.EWOULDBLOCK):
-                return
-            else:
-                shell.print_exception(e)
-                if self._config['verbose']:
-                    traceback.print_exc()
+        if self._control_client_addr:
+            try:
+                self._control_socket.sendto(data, self._control_client_addr)
+            except (socket.error, OSError, IOError) as e:
+                error_no = eventloop.errno_from_exception(e)
+                if error_no in (errno.EAGAIN, errno.EINPROGRESS,
+                                errno.EWOULDBLOCK):
+                    return
+                else:
+                    shell.print_exception(e)
+                    if self._config['verbose']:
+                        traceback.print_exc()
 
     def run(self):
         self._loop.run()
@@ -203,7 +198,7 @@ def test():
     import time
     import threading
     import struct
-    from shadowsocks import cryptor
+    from shadowsocks import encrypt
 
     logging.basicConfig(level=5,
                         format='%(asctime)s %(levelname)-8s %(message)s',
@@ -212,7 +207,9 @@ def test():
     eventloop.TIMEOUT_PRECISION = 1
 
     def run_server():
-        config = {
+        config = shell.get_config(True)
+        config = config.copy()
+        a_config = {
             'server': '127.0.0.1',
             'local_port': 1081,
             'port_password': {
@@ -225,6 +222,7 @@ def test():
             'fast_open': False,
             'verbose': 2
         }
+        config.update(a_config)
         manager = Manager(config)
         enc.append(manager)
         manager.run()
@@ -253,7 +251,7 @@ def test():
 
     # test statistics for TCP
     header = common.pack_addr(b'google.com') + struct.pack('>H', 80)
-    data = cryptor.encrypt_all(b'asdfadsfasdf', 'aes-256-cfb',
+    data = encrypt.encrypt_all(b'asdfadsfasdf', 'aes-256-cfb', 1,
                                header + b'GET /\r\n\r\n')
     tcp_cli = socket.socket()
     tcp_cli.connect(('127.0.0.1', 7001))
@@ -271,7 +269,7 @@ def test():
 
     # test statistics for UDP
     header = common.pack_addr(b'127.0.0.1') + struct.pack('>H', 80)
-    data = cryptor.encrypt_all(b'foobar2', 'aes-256-cfb',
+    data = encrypt.encrypt_all(b'foobar2', 'aes-256-cfb', 1,
                                header + b'test')
     udp_cli = socket.socket(type=socket.SOCK_DGRAM)
     udp_cli.sendto(data, ('127.0.0.1', 8382))

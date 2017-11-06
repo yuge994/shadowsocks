@@ -1,0 +1,26 @@
+2017-11-06 09:16:07 INFO     util.py:85 loading libsodium from libsodium.so.18
+2017-11-06 09:16:07 INFO     asyncdns.py:324 dns server: [('8.8.8.8', 53), ('208.67.222.222', 53)]
+/root/shadowsocksr/shadowsocks/shell.py:58: UserWarning: Module shadowsocks was already imported from /root/shadowsocksr/shadowsocks/__init__.pyc, but /usr/lib/python2.6/site-packages is being added to sys.path
+  import pkg_resources
+2017-11-06 09:16:07 INFO     shell.py:72 ShadowsocksR 2.8.2
+2017-11-06 09:16:07 INFO     db_transfer.py:238 current process RLIMIT_NOFILE resource: soft 512000 hard 512000
+2017-11-06 09:16:07 INFO     db_transfer.py:205 db start server at port [7777] pass [password1] protocol [auth_aes128_md5] method [chacha20] obfs [tls1.2_ticket_auth_compatible]
+2017-11-06 09:16:07 INFO     server_pool.py:127 starting server at [::]:7777
+2017-11-06 09:16:07 INFO     server_pool.py:153 starting server at 0.0.0.0:7777
+2017-11-06 09:16:08 INFO     util.py:85 loading libcrypto from libcrypto.so.10
+2017-11-06 09:23:07 INFO     db_transfer.py:205 db start server at port [8888] pass [laoshu1994] protocol [auth_aes128_md5] method [chacha20] obfs [tls1.2_ticket_auth_compatible]
+2017-11-06 09:23:07 INFO     server_pool.py:127 starting server at [::]:8888
+2017-11-06 09:23:07 INFO     server_pool.py:153 starting server at 0.0.0.0:8888
+2017-11-06 09:42:10 INFO     util.py:85 loading libcrypto from libcrypto.so.10
+2017-11-06 09:42:10 INFO     asyncdns.py:324 dns server: [('8.8.8.8', 53), ('208.67.222.222', 53)]
+/root/shadowsocksr/shadowsocks/shell.py:58: UserWarning: Module shadowsocks was already imported from /root/shadowsocksr/shadowsocks/__init__.pyc, but /usr/lib/python2.6/site-packages is being added to sys.path
+  import pkg_resources
+2017-11-06 09:42:10 INFO     shell.py:72 ShadowsocksR 2.8.2
+2017-11-06 09:42:10 INFO     db_transfer.py:238 current process RLIMIT_NOFILE resource: soft 512000 hard 512000
+2017-11-06 09:42:10 INFO     db_transfer.py:205 db start server at port [7777] pass [password1] protocol [auth_aes128_md5] method [chacha20] obfs [tls1.2_ticket_auth_compatible]
+2017-11-06 09:42:10 INFO     server_pool.py:127 starting server at [::]:7777
+2017-11-06 09:42:10 INFO     server_pool.py:153 starting server at 0.0.0.0:7777
+2017-11-06 09:42:10 INFO     db_transfer.py:205 db start server at port [8888] pass [laoshu1994] protocol [auth_aes128_md5] method [chacha20] obfs [tls1.2_ticket_auth_compatible]
+2017-11-06 09:42:10 INFO     server_pool.py:127 starting server at [::]:8888
+2017-11-06 09:42:10 INFO     server_pool.py:153 starting server at 0.0.0.0:8888
+2017-11-06 09:42:20 INFO     util.py:85 loading libsodium from libsodium.so.18

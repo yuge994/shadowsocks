@@ -1,0 +1,26 @@
+[
+    {
+        "d": 182240,
+        "enable": 1,
+        "method": "chacha20",
+        "obfs": "tls1.2_ticket_auth_compatible",
+        "passwd": "password1",
+        "port": 7777,
+        "protocol": "auth_aes128_md5",
+        "transfer_enable": 9007199254740992,
+        "u": 56176,
+        "user": "test"
+    },
+    {
+        "d": 587612,
+        "enable": 1,
+        "method": "chacha20",
+        "obfs": "tls1.2_ticket_auth_compatible",
+        "passwd": "laoshu1994",
+        "port": 8888,
+        "protocol": "auth_aes128_md5",
+        "transfer_enable": 9007199254740992,
+        "u": 61034,
+        "user": "n1"
+    }
+]
